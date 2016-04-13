@@ -13,24 +13,28 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DocFoldersDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="DocFoldersDbModelContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="FolderSet" EntityType="DocFoldersDbModel.Folder" />
-          <EntitySet Name="DocSet" EntityType="DocFoldersDbModel.Doc" />
-          <EntitySet Name="CommentSet" EntityType="DocFoldersDbModel.Comment" />
-          <AssociationSet Name="FolderDoc" Association="DocFoldersDbModel.FolderDoc">
-            <End Role="Folder" EntitySet="FolderSet" />
-            <End Role="Doc" EntitySet="DocSet" />
+          <EntitySet Name="Folders" EntityType="DocFoldersDbModel.Folder" />
+          <EntitySet Name="Docs" EntityType="DocFoldersDbModel.Doc" />
+          <EntitySet Name="Comments" EntityType="DocFoldersDbModel.Comment" />
+          <AssociationSet Name="FolderDocs" Association="DocFoldersDbModel.FolderDoc">
+            <End Role="Folder" EntitySet="Folders" />
+            <End Role="Doc" EntitySet="Docs" />
           </AssociationSet>
-          <AssociationSet Name="DocComment" Association="DocFoldersDbModel.DocComment">
-            <End Role="Doc" EntitySet="DocSet" />
-            <End Role="Comment" EntitySet="CommentSet" />
+          <AssociationSet Name="DocComments" Association="DocFoldersDbModel.DocComment">
+            <End Role="Doc" EntitySet="Docs" />
+            <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FolderComment" Association="DocFoldersDbModel.FolderComment">
-            <End Role="Folder" EntitySet="FolderSet" />
-            <End Role="Comment" EntitySet="CommentSet" />
+          <AssociationSet Name="FolderComments" Association="DocFoldersDbModel.FolderComment">
+            <End Role="Folder" EntitySet="Folders" />
+            <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="DocAttachment" Association="DocFoldersDbModel.DocAttachment">
-            <End Role="Doc" EntitySet="DocSet" />
-            <End Role="Doc1" EntitySet="DocSet" />
+          <AssociationSet Name="DocAttachments" Association="DocFoldersDbModel.DocAttachment">
+            <End Role="MainDoc" EntitySet="Docs" />
+            <End Role="AttachedDoc" EntitySet="Docs" />
+          </AssociationSet>
+          <AssociationSet Name="FolderSubFolders" Association="DocFoldersDbModel.FolderSubFolder">
+            <End Role="ParentFolder" EntitySet="Folders" />
+            <End Role="SubFolder" EntitySet="Folders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Folder">
@@ -54,18 +58,20 @@
               <LongDescription>Исходный путь к папке</LongDescription>
             </Documentation>
           </Property>
-          <NavigationProperty Name="Doc" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Folder" ToRole="Doc" >
+          <NavigationProperty Name="Docs" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Folder" ToRole="Doc" >
             <Documentation>
               <Summary>Документ</Summary>
               <LongDescription>Вложенный документ</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="Comment" Relationship="DocFoldersDbModel.FolderComment" FromRole="Folder" ToRole="Comment" >
+          <NavigationProperty Name="Comments" Relationship="DocFoldersDbModel.FolderComment" FromRole="Folder" ToRole="Comment" >
             <Documentation>
               <Summary>Комментарий</Summary>
               <LongDescription>Комментарий к папке</LongDescription>
             </Documentation>
           </NavigationProperty>
+          <NavigationProperty Name="ParentFolders" Relationship="DocFoldersDbModel.FolderSubFolder" FromRole="ParentFolder" ToRole="SubFolder" />
+          <NavigationProperty Name="SubFolders" Relationship="DocFoldersDbModel.FolderSubFolder" FromRole="SubFolder" ToRole="ParentFolder" />
         </EntityType>
         <EntityType Name="Doc">
           <Documentation>
@@ -124,25 +130,25 @@
               <LongDescription>Кем изменен документ</LongDescription>
             </Documentation>
           </Property>
-          <NavigationProperty Name="Folder" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Doc" ToRole="Folder" >
+          <NavigationProperty Name="Folders" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Doc" ToRole="Folder" >
             <Documentation>
               <Summary>Папка</Summary>
               <LongDescription>Куда вложен документ</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="Comment" Relationship="DocFoldersDbModel.DocComment" FromRole="Doc" ToRole="Comment" >
+          <NavigationProperty Name="Comments" Relationship="DocFoldersDbModel.DocComment" FromRole="Doc" ToRole="Comment" >
             <Documentation>
               <Summary>Комментарий</Summary>
               <LongDescription>Комментарий к документу</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="MainDoc" Relationship="DocFoldersDbModel.DocAttachment" FromRole="Doc" ToRole="Doc1" >
+          <NavigationProperty Name="MainDocs" Relationship="DocFoldersDbModel.DocAttachment" FromRole="MainDoc" ToRole="AttachedDoc" >
             <Documentation>
               <Summary>Документ</Summary>
               <LongDescription>Основной документ</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="AttachedDoc" Relationship="DocFoldersDbModel.DocAttachment" FromRole="Doc1" ToRole="Doc" >
+          <NavigationProperty Name="AttachedDocs" Relationship="DocFoldersDbModel.DocAttachment" FromRole="AttachedDoc" ToRole="MainDoc" >
             <Documentation>
               <Summary>Приложение</Summary>
               <LongDescription>Приложение к документу</LongDescription>
@@ -214,7 +220,8 @@
             <Summary>Папка документов</Summary>
             <LongDescription>Папка с вложенными (папками и) документами</LongDescription>
           </Documentation>
-          <End Type="DocFoldersDbModel.Folder" Role="Folder" Multiplicity="*" />
+          <End Type="DocFoldersDbModel.Folder" Role="Folder" Multiplicity="*" >
+          </End>
           <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="*" />
         </Association>
         <Association Name="DocComment">
@@ -254,8 +261,12 @@
             <Summary>Приложения</Summary>
             <LongDescription>Основной документ с приложениями</LongDescription>
           </Documentation>
-          <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="*" />
-          <End Type="DocFoldersDbModel.Doc" Role="Doc1" Multiplicity="*" />
+          <End Type="DocFoldersDbModel.Doc" Role="MainDoc" Multiplicity="*" />
+          <End Type="DocFoldersDbModel.Doc" Role="AttachedDoc" Multiplicity="*" />
+        </Association>
+        <Association Name="FolderSubFolder">
+          <End Type="DocFoldersDbModel.Folder" Role="ParentFolder" Multiplicity="*" />
+          <End Type="DocFoldersDbModel.Folder" Role="SubFolder" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
