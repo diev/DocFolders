@@ -18,6 +18,8 @@ namespace DocFolders.BulkLoad.Models
         public DocFoldersDbModelContainer()
             : base("name=DocFoldersDbModelContainer")
         {
+            Database.SetInitializer(new CreateDatabaseIfNotExists<DocFoldersDbModelContainer>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DocFoldersDbModelContainer>());
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,20 +70,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Comment.cs">
-      <DependentUpon>DocAttachments.tt</DependentUpon>
+      <DependentUpon>DocFoldersDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Doc.cs">
-      <DependentUpon>DocAttachments.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DocAttachments.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DocAttachments.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DocAttachments.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DocAttachments.tt</DependentUpon>
+      <DependentUpon>DocFoldersDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DocFoldersDbModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -86,7 +91,7 @@
       <DependentUpon>DocFoldersDbModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Folder.cs">
-      <DependentUpon>DocAttachments.tt</DependentUpon>
+      <DependentUpon>DocFoldersDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,16 +108,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\DocAttachments.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DocAttachments.Context.cs</LastGenOutput>
-      <DependentUpon>DocFoldersDbModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\DocAttachments.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DocAttachments.cs</LastGenOutput>
-      <DependentUpon>DocFoldersDbModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Models\DocFoldersDbModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DocFoldersDbModel.Context.cs</LastGenOutput>
@@ -127,6 +122,13 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

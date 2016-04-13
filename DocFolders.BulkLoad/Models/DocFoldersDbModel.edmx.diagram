@@ -15,8 +15,8 @@
         </AssociationConnector>
         <AssociationConnector Association="DocFoldersDbModel.FolderSubFolders" ManuallyRouted="true" >
           <ConnectorPoint PointX="1.1569230769230767" PointY="3.864889322916667" />
-          <ConnectorPoint PointX="1.1569230769230767" PointY="4.68432041049536" />
-          <ConnectorPoint PointX="1.6034615384615383" PointY="4.68432041049536" />
+          <ConnectorPoint PointX="1.1569230769230767" PointY="4.6235431647407168" />
+          <ConnectorPoint PointX="1.6034615384615383" PointY="4.6235431647407168" />
           <ConnectorPoint PointX="1.6034615384615383" PointY="3.864889322916667" />
         </AssociationConnector>
       </Diagram>
