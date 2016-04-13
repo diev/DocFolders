@@ -34,6 +34,10 @@
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Folder">
+          <Documentation>
+            <Summary>Папки</Summary>
+            <LongDescription>Таблица папок</LongDescription>
+          </Documentation>
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -64,6 +68,10 @@
           </NavigationProperty>
         </EntityType>
         <EntityType Name="Doc">
+          <Documentation>
+            <Summary>Документы</Summary>
+            <LongDescription>Таблица документов</LongDescription>
+          </Documentation>
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -160,6 +168,10 @@
           </Property>
         </EntityType>
         <EntityType Name="Comment">
+          <Documentation>
+            <Summary>Комментарии</Summary>
+            <LongDescription>Таблица комментариев</LongDescription>
+          </Documentation>
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -198,10 +210,18 @@
           <Property Name="FolderId" Type="Guid" Nullable="false" />
         </EntityType>
         <Association Name="FolderDoc">
+          <Documentation>
+            <Summary>Папка документов</Summary>
+            <LongDescription>Папка с вложенными (папками и) документами</LongDescription>
+          </Documentation>
           <End Type="DocFoldersDbModel.Folder" Role="Folder" Multiplicity="*" />
           <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="*" />
         </Association>
         <Association Name="DocComment">
+          <Documentation>
+            <Summary>Комментарии</Summary>
+            <LongDescription>Комментарии к документу</LongDescription>
+          </Documentation>
           <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="1" />
           <End Type="DocFoldersDbModel.Comment" Role="Comment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -214,6 +234,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FolderComment">
+          <Documentation>
+            <Summary>Комментарии</Summary>
+            <LongDescription>Комментарии к папке</LongDescription>
+          </Documentation>
           <End Type="DocFoldersDbModel.Folder" Role="Folder" Multiplicity="1" />
           <End Type="DocFoldersDbModel.Comment" Role="Comment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -226,6 +250,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="DocAttachment">
+          <Documentation>
+            <Summary>Приложения</Summary>
+            <LongDescription>Основной документ с приложениями</LongDescription>
+          </Documentation>
           <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="*" />
           <End Type="DocFoldersDbModel.Doc" Role="Doc1" Multiplicity="*" />
         </Association>
