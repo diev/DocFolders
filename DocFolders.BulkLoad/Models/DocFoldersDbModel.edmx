@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="DocFoldersDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="DocFoldersDbModelTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DocFoldersDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DocFoldersDbModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FolderSet" EntityType="DocFoldersDbModel.Folder" />
+          <EntitySet Name="DocSet" EntityType="DocFoldersDbModel.Doc" />
+          <EntitySet Name="CommentSet" EntityType="DocFoldersDbModel.Comment" />
+          <AssociationSet Name="FolderDoc" Association="DocFoldersDbModel.FolderDoc">
+            <End Role="Folder" EntitySet="FolderSet" />
+            <End Role="Doc" EntitySet="DocSet" />
+          </AssociationSet>
+          <AssociationSet Name="DocComment" Association="DocFoldersDbModel.DocComment">
+            <End Role="Doc" EntitySet="DocSet" />
+            <End Role="Comment" EntitySet="CommentSet" />
+          </AssociationSet>
+          <AssociationSet Name="FolderComment" Association="DocFoldersDbModel.FolderComment">
+            <End Role="Folder" EntitySet="FolderSet" />
+            <End Role="Comment" EntitySet="CommentSet" />
+          </AssociationSet>
+          <AssociationSet Name="DocAttachment" Association="DocFoldersDbModel.DocAttachment">
+            <End Role="Doc" EntitySet="DocSet" />
+            <End Role="Doc1" EntitySet="DocSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Caption" Type="String" Nullable="false" Unicode="true" >
+            <Documentation>
+              <Summary>Название</Summary>
+              <LongDescription>Название папки</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="Source" Type="String" Nullable="true" >
+            <Documentation>
+              <Summary>Папка</Summary>
+              <LongDescription>Исходный путь к папке</LongDescription>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Doc" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Folder" ToRole="Doc" >
+            <Documentation>
+              <Summary>Документ</Summary>
+              <LongDescription>Вложенный документ</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Comment" Relationship="DocFoldersDbModel.FolderComment" FromRole="Folder" ToRole="Comment" >
+            <Documentation>
+              <Summary>Комментарий</Summary>
+              <LongDescription>Комментарий к папке</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <EntityType Name="Doc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Caption" Type="String" Nullable="false" Unicode="true" >
+            <Documentation>
+              <Summary>Название</Summary>
+              <LongDescription>Краткое название документа</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="Source" Type="String" Nullable="true" >
+            <Documentation>
+              <Summary>Файл</Summary>
+              <LongDescription>Исходный путь к файлу</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="Title" Type="String" Nullable="true" Unicode="true" >
+            <Documentation>
+              <Summary>Полное название</Summary>
+              <LongDescription>Полное название документа</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="Content" Type="String" Nullable="true" Unicode="true" >
+            <Documentation>
+              <Summary>Текст</Summary>
+              <LongDescription>Содержание документа</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="DateLoaded" Type="DateTime" Nullable="true" >
+            <Documentation>
+              <Summary>Создан</Summary>
+              <LongDescription>Дата и время загрузки в систему</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="UserLoaded" Type="String" Nullable="true" Unicode="true" >
+            <Documentation>
+              <Summary>Создал</Summary>
+              <LongDescription>Кем создан документ</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="DateChanged" Type="DateTime" Nullable="true" >
+            <Documentation>
+              <Summary>Изменен</Summary>
+              <LongDescription>Дата и время изменения документа</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="UserChanged" Type="String" Nullable="true" Unicode="true" >
+            <Documentation>
+              <Summary>Изменил</Summary>
+              <LongDescription>Кем изменен документ</LongDescription>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Folder" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Doc" ToRole="Folder" >
+            <Documentation>
+              <Summary>Папка</Summary>
+              <LongDescription>Куда вложен документ</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="Comment" Relationship="DocFoldersDbModel.DocComment" FromRole="Doc" ToRole="Comment" >
+            <Documentation>
+              <Summary>Комментарий</Summary>
+              <LongDescription>Комментарий к документу</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="MainDoc" Relationship="DocFoldersDbModel.DocAttachment" FromRole="Doc" ToRole="Doc1" >
+            <Documentation>
+              <Summary>Документ</Summary>
+              <LongDescription>Основной документ</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+          <NavigationProperty Name="AttachedDoc" Relationship="DocFoldersDbModel.DocAttachment" FromRole="Doc1" ToRole="Doc" >
+            <Documentation>
+              <Summary>Приложение</Summary>
+              <LongDescription>Приложение к документу</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+          <Property Name="DateSigned" Type="DateTime" Nullable="true" >
+            <Documentation>
+              <Summary>Дата подписания</Summary>
+              <LongDescription>Дата подписания документа</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="DateFixed" Type="DateTime" Nullable="true" >
+            <Documentation>
+              <Summary>Дата фиксации</Summary>
+              <LongDescription>Дата фиксации состояния документа</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="DateExpired" Type="DateTime" Nullable="true">
+            <Documentation>
+              <Summary>Годен до</Summary>
+              <LongDescription>Дата истечения срока действия</LongDescription>
+            </Documentation>
+          </Property>
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="true" >
+            <Documentation>
+              <Summary>Создан</Summary>
+              <LongDescription>Дата и время создания комментария</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="UserCreated" Type="String" Nullable="true" Unicode="true" >
+            <Documentation>
+              <Summary>Создал</Summary>
+              <LongDescription>Кем создан комментарий</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Name="Content" Type="String" Nullable="false" Unicode="true" >
+            <Documentation>
+              <Summary>Текст</Summary>
+              <LongDescription>Содержание комментария</LongDescription>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Doc" Relationship="DocFoldersDbModel.DocComment" FromRole="Comment" ToRole="Doc" >
+            <Documentation>
+              <Summary>Документ</Summary>
+              <LongDescription>Комментируемый документ</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+          <Property Name="DocId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Folder" Relationship="DocFoldersDbModel.FolderComment" FromRole="Comment" ToRole="Folder" >
+            <Documentation>
+              <Summary>Папка</Summary>
+              <LongDescription>Комментируемая папка</LongDescription>
+            </Documentation>
+          </NavigationProperty>
+          <Property Name="FolderId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <Association Name="FolderDoc">
+          <End Type="DocFoldersDbModel.Folder" Role="Folder" Multiplicity="*" />
+          <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="*" />
+        </Association>
+        <Association Name="DocComment">
+          <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="1" />
+          <End Type="DocFoldersDbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doc">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="DocId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FolderComment">
+          <End Type="DocFoldersDbModel.Folder" Role="Folder" Multiplicity="1" />
+          <End Type="DocFoldersDbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="FolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DocAttachment">
+          <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="*" />
+          <End Type="DocFoldersDbModel.Doc" Role="Doc1" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="DocFoldersDbModel" />
+        <Alias Key="Target" Value="DocFoldersDbModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="DocFoldersDbModelContainer" StorageEntityContainer="DocFoldersDbModelTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
