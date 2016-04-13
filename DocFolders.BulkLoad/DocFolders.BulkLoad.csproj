@@ -60,6 +60,16 @@
     <Compile Include="Models\Doc.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocFoldersDbModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DocFoldersDbModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DocFoldersDbModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DocFoldersDbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DocFoldersDbModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,6 +103,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Models\DocFoldersDbModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DocFoldersDbModel.Context.cs</LastGenOutput>
+      <DependentUpon>DocFoldersDbModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\DocFoldersDbModel.edmx.sql" />
+    <Content Include="Models\DocFoldersDbModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DocFoldersDbModel.cs</LastGenOutput>
+      <DependentUpon>DocFoldersDbModel.edmx</DependentUpon>
+    </Content>
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>

@@ -4,11 +4,204 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="DocFoldersDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="DocFoldersDbModelTargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="DocFoldersDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DocFoldersDbModelStoreContainer">
+    <EntitySet Name="Folders" EntityType="DocFoldersDbModel.Store.Folders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Docs" EntityType="DocFoldersDbModel.Store.Docs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="DocFoldersDbModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FolderDocs" EntityType="DocFoldersDbModel.Store.FolderDoc" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DocAttachments" EntityType="DocFoldersDbModel.Store.DocAttachment" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FolderSubFolders" EntityType="DocFoldersDbModel.Store.FolderSubFolder" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_FolderDocs_Folder" Association="DocFoldersDbModel.Store.FK_FolderDoc_Folder">
+      <End Role="Folder" EntitySet="Folders" />
+      <End Role="FolderDoc" EntitySet="FolderDocs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FolderDocs_Doc" Association="DocFoldersDbModel.Store.FK_FolderDoc_Doc">
+      <End Role="Doc" EntitySet="Docs" />
+      <End Role="FolderDoc" EntitySet="FolderDocs" />
+    </AssociationSet>
+    <AssociationSet Name="DocComments" Association="DocFoldersDbModel.Store.DocComment">
+      <End Role="Doc" EntitySet="Docs" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FolderComments" Association="DocFoldersDbModel.Store.FolderComment">
+      <End Role="Folder" EntitySet="Folders" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DocAttachments_MainDoc" Association="DocFoldersDbModel.Store.FK_DocAttachment_MainDoc">
+      <End Role="MainDoc" EntitySet="Docs" />
+      <End Role="DocAttachment" EntitySet="DocAttachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DocAttachments_AttachedDoc" Association="DocFoldersDbModel.Store.FK_DocAttachment_AttachedDoc">
+      <End Role="AttachedDoc" EntitySet="Docs" />
+      <End Role="DocAttachment" EntitySet="DocAttachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FolderSubFolders_ParentFolder" Association="DocFoldersDbModel.Store.FK_FolderSubFolder_ParentFolder">
+      <End Role="ParentFolder" EntitySet="Folders" />
+      <End Role="FolderSubFolder" EntitySet="FolderSubFolders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FolderSubFolders_SubFolder" Association="DocFoldersDbModel.Store.FK_FolderSubFolder_SubFolder">
+      <End Role="SubFolder" EntitySet="Folders" />
+      <End Role="FolderSubFolder" EntitySet="FolderSubFolders" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Folders">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Caption" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Source" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Docs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Caption" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Source" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateLoaded" Type="datetime" Nullable="true" />
+    <Property Name="UserLoaded" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateChanged" Type="datetime" Nullable="true" />
+    <Property Name="UserChanged" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateSigned" Type="datetime" Nullable="true" />
+    <Property Name="DateFixed" Type="datetime" Nullable="true" />
+    <Property Name="DateExpired" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateCreated" Type="datetime" Nullable="true" />
+    <Property Name="UserCreated" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DocId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FolderId" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FolderDoc">
+    <Key>
+      <PropertyRef Name="Folders_Id" />
+      <PropertyRef Name="Docs_Id" />
+    </Key>
+    <Property Name="Folders_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Docs_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DocAttachment">
+    <Key>
+      <PropertyRef Name="AttachedDocs_Id" />
+      <PropertyRef Name="MainDocs_Id" />
+    </Key>
+    <Property Name="AttachedDocs_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="MainDocs_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FolderSubFolder">
+    <Key>
+      <PropertyRef Name="SubFolders_Id" />
+      <PropertyRef Name="ParentFolders_Id" />
+    </Key>
+    <Property Name="SubFolders_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ParentFolders_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <Association Name="DocComment">
+    <End Role="Doc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
+    <End Role="Comment" Type="DocFoldersDbModel.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Doc">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="DocId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FolderComment">
+    <End Role="Folder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
+    <End Role="Comment" Type="DocFoldersDbModel.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Folder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="FolderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderDoc_Folder">
+    <End Role="Folder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
+    <End Role="FolderDoc" Type="DocFoldersDbModel.Store.FolderDoc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Folder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FolderDoc">
+        <PropertyRef Name="Folders_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderDoc_Doc">
+    <End Role="FolderDoc" Type="DocFoldersDbModel.Store.FolderDoc" Multiplicity="*" />
+    <End Role="Doc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Doc">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FolderDoc">
+        <PropertyRef Name="Docs_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DocAttachment_MainDoc">
+    <End Role="MainDoc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
+    <End Role="DocAttachment" Type="DocFoldersDbModel.Store.DocAttachment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MainDoc">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DocAttachment">
+        <PropertyRef Name="AttachedDocs_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DocAttachment_AttachedDoc">
+    <End Role="DocAttachment" Type="DocFoldersDbModel.Store.DocAttachment" Multiplicity="*" />
+    <End Role="AttachedDoc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="AttachedDoc">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DocAttachment">
+        <PropertyRef Name="MainDocs_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderSubFolder_ParentFolder">
+    <End Role="ParentFolder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
+    <End Role="FolderSubFolder" Type="DocFoldersDbModel.Store.FolderSubFolder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ParentFolder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FolderSubFolder">
+        <PropertyRef Name="SubFolders_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FolderSubFolder_SubFolder">
+    <End Role="FolderSubFolder" Type="DocFoldersDbModel.Store.FolderSubFolder" Multiplicity="*" />
+    <End Role="SubFolder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="SubFolder">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FolderSubFolder">
+        <PropertyRef Name="ParentFolders_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DocFoldersDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -272,13 +465,73 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="DocFoldersDbModel" />
-        <Alias Key="Target" Value="DocFoldersDbModel.Store" />
-        <EntityContainerMapping CdmEntityContainer="DocFoldersDbModelContainer" StorageEntityContainer="DocFoldersDbModelTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DocFoldersDbModelStoreContainer" CdmEntityContainer="DocFoldersDbModelContainer">
+    <EntitySetMapping Name="Folders">
+      <EntityTypeMapping TypeName="IsTypeOf(DocFoldersDbModel.Folder)">
+        <MappingFragment StoreEntitySet="Folders">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Caption" ColumnName="Caption" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Docs">
+      <EntityTypeMapping TypeName="IsTypeOf(DocFoldersDbModel.Doc)">
+        <MappingFragment StoreEntitySet="Docs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Caption" ColumnName="Caption" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="DateLoaded" ColumnName="DateLoaded" />
+          <ScalarProperty Name="UserLoaded" ColumnName="UserLoaded" />
+          <ScalarProperty Name="DateChanged" ColumnName="DateChanged" />
+          <ScalarProperty Name="UserChanged" ColumnName="UserChanged" />
+          <ScalarProperty Name="DateSigned" ColumnName="DateSigned" />
+          <ScalarProperty Name="DateFixed" ColumnName="DateFixed" />
+          <ScalarProperty Name="DateExpired" ColumnName="DateExpired" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(DocFoldersDbModel.Comment)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="UserCreated" ColumnName="UserCreated" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="DocId" ColumnName="DocId" />
+          <ScalarProperty Name="FolderId" ColumnName="FolderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FolderDocs" TypeName="DocFoldersDbModel.FolderDoc" StoreEntitySet="FolderDocs">
+      <EndProperty Name="Folder">
+        <ScalarProperty Name="Id" ColumnName="Folders_Id" />
+      </EndProperty>
+      <EndProperty Name="Doc">
+        <ScalarProperty Name="Id" ColumnName="Docs_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DocAttachments" TypeName="DocFoldersDbModel.DocAttachment" StoreEntitySet="DocAttachments">
+      <EndProperty Name="MainDoc">
+        <ScalarProperty Name="Id" ColumnName="AttachedDocs_Id" />
+      </EndProperty>
+      <EndProperty Name="AttachedDoc">
+        <ScalarProperty Name="Id" ColumnName="MainDocs_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FolderSubFolders" TypeName="DocFoldersDbModel.FolderSubFolder" StoreEntitySet="FolderSubFolders">
+      <EndProperty Name="ParentFolder">
+        <ScalarProperty Name="Id" ColumnName="SubFolders_Id" />
+      </EndProperty>
+      <EndProperty Name="SubFolder">
+        <ScalarProperty Name="Id" ColumnName="ParentFolders_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -292,6 +545,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
