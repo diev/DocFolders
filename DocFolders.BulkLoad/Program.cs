@@ -53,9 +53,11 @@ namespace DocFolders.BulkLoad
 
         static void BulkLoad(DataTable table, string tableName)
         {
-            using (var connection = new SqlConnection(connectionString)) //TODO connectionString
+            using (var connection = new SqlConnection(connectionString)) //TODO conectionString
             {
                 //TODO recreate database if not exists
+                
+                //TODO integrated security for home - impossible to create
 
                 connection.Open();
                 SqlTransaction transaction = connection.BeginTransaction(tableName);
