@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/13/2016 18:06:16
+-- Date Created: 04/13/2016 19:56:24
 -- Generated from EDMX file: D:\Repos\DocFolders\DocFolders.BulkLoad\Models\DocFoldersDbModel.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,53 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_FolderDocs_Folder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FolderDocs] DROP CONSTRAINT [FK_FolderDocs_Folder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FolderDocs_Doc]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FolderDocs] DROP CONSTRAINT [FK_FolderDocs_Doc];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DocComments]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Comments] DROP CONSTRAINT [FK_DocComments];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FolderComments]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Comments] DROP CONSTRAINT [FK_FolderComments];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DocAttachments_MainDoc]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DocAttachments] DROP CONSTRAINT [FK_DocAttachments_MainDoc];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DocAttachments_AttachedDoc]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DocAttachments] DROP CONSTRAINT [FK_DocAttachments_AttachedDoc];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FolderSubFolders_ParentFolder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FolderSubFolders] DROP CONSTRAINT [FK_FolderSubFolders_ParentFolder];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FolderSubFolders_SubFolder]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FolderSubFolders] DROP CONSTRAINT [FK_FolderSubFolders_SubFolder];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Folders]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Folders];
+GO
+IF OBJECT_ID(N'[dbo].[Docs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Docs];
+GO
+IF OBJECT_ID(N'[dbo].[Comments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Comments];
+GO
+IF OBJECT_ID(N'[dbo].[FolderDocs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FolderDocs];
+GO
+IF OBJECT_ID(N'[dbo].[DocAttachments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DocAttachments];
+GO
+IF OBJECT_ID(N'[dbo].[FolderSubFolders]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FolderSubFolders];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -130,7 +172,7 @@ GO
 
 -- Creating foreign key on [Folders_Id] in table 'FolderDocs'
 ALTER TABLE [dbo].[FolderDocs]
-ADD CONSTRAINT [FK_FolderDoc_Folder]
+ADD CONSTRAINT [FK_FolderDocs_Folder]
     FOREIGN KEY ([Folders_Id])
     REFERENCES [dbo].[Folders]
         ([Id])
@@ -139,52 +181,52 @@ GO
 
 -- Creating foreign key on [Docs_Id] in table 'FolderDocs'
 ALTER TABLE [dbo].[FolderDocs]
-ADD CONSTRAINT [FK_FolderDoc_Doc]
+ADD CONSTRAINT [FK_FolderDocs_Doc]
     FOREIGN KEY ([Docs_Id])
     REFERENCES [dbo].[Docs]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_FolderDoc_Doc'
-CREATE INDEX [IX_FK_FolderDoc_Doc]
+-- Creating non-clustered index for FOREIGN KEY 'FK_FolderDocs_Doc'
+CREATE INDEX [IX_FK_FolderDocs_Doc]
 ON [dbo].[FolderDocs]
     ([Docs_Id]);
 GO
 
 -- Creating foreign key on [DocId] in table 'Comments'
 ALTER TABLE [dbo].[Comments]
-ADD CONSTRAINT [FK_DocComment]
+ADD CONSTRAINT [FK_DocComments]
     FOREIGN KEY ([DocId])
     REFERENCES [dbo].[Docs]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_DocComment'
-CREATE INDEX [IX_FK_DocComment]
+-- Creating non-clustered index for FOREIGN KEY 'FK_DocComments'
+CREATE INDEX [IX_FK_DocComments]
 ON [dbo].[Comments]
     ([DocId]);
 GO
 
 -- Creating foreign key on [FolderId] in table 'Comments'
 ALTER TABLE [dbo].[Comments]
-ADD CONSTRAINT [FK_FolderComment]
+ADD CONSTRAINT [FK_FolderComments]
     FOREIGN KEY ([FolderId])
     REFERENCES [dbo].[Folders]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_FolderComment'
-CREATE INDEX [IX_FK_FolderComment]
+-- Creating non-clustered index for FOREIGN KEY 'FK_FolderComments'
+CREATE INDEX [IX_FK_FolderComments]
 ON [dbo].[Comments]
     ([FolderId]);
 GO
 
 -- Creating foreign key on [AttachedDocs_Id] in table 'DocAttachments'
 ALTER TABLE [dbo].[DocAttachments]
-ADD CONSTRAINT [FK_DocAttachment_MainDoc]
+ADD CONSTRAINT [FK_DocAttachments_MainDoc]
     FOREIGN KEY ([AttachedDocs_Id])
     REFERENCES [dbo].[Docs]
         ([Id])
@@ -193,22 +235,22 @@ GO
 
 -- Creating foreign key on [MainDocs_Id] in table 'DocAttachments'
 ALTER TABLE [dbo].[DocAttachments]
-ADD CONSTRAINT [FK_DocAttachment_AttachedDoc]
+ADD CONSTRAINT [FK_DocAttachments_AttachedDoc]
     FOREIGN KEY ([MainDocs_Id])
     REFERENCES [dbo].[Docs]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_DocAttachment_AttachedDoc'
-CREATE INDEX [IX_FK_DocAttachment_AttachedDoc]
+-- Creating non-clustered index for FOREIGN KEY 'FK_DocAttachments_AttachedDoc'
+CREATE INDEX [IX_FK_DocAttachments_AttachedDoc]
 ON [dbo].[DocAttachments]
     ([MainDocs_Id]);
 GO
 
 -- Creating foreign key on [SubFolders_Id] in table 'FolderSubFolders'
 ALTER TABLE [dbo].[FolderSubFolders]
-ADD CONSTRAINT [FK_FolderSubFolder_ParentFolder]
+ADD CONSTRAINT [FK_FolderSubFolders_ParentFolder]
     FOREIGN KEY ([SubFolders_Id])
     REFERENCES [dbo].[Folders]
         ([Id])
@@ -217,15 +259,15 @@ GO
 
 -- Creating foreign key on [ParentFolders_Id] in table 'FolderSubFolders'
 ALTER TABLE [dbo].[FolderSubFolders]
-ADD CONSTRAINT [FK_FolderSubFolder_SubFolder]
+ADD CONSTRAINT [FK_FolderSubFolders_SubFolder]
     FOREIGN KEY ([ParentFolders_Id])
     REFERENCES [dbo].[Folders]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_FolderSubFolder_SubFolder'
-CREATE INDEX [IX_FK_FolderSubFolder_SubFolder]
+-- Creating non-clustered index for FOREIGN KEY 'FK_FolderSubFolders_SubFolder'
+CREATE INDEX [IX_FK_FolderSubFolders_SubFolder]
 ON [dbo].[FolderSubFolders]
     ([ParentFolders_Id]);
 GO

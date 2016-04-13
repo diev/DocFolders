@@ -9,40 +9,40 @@
     <EntitySet Name="Folders" EntityType="DocFoldersDbModel.Store.Folders" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Docs" EntityType="DocFoldersDbModel.Store.Docs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Comments" EntityType="DocFoldersDbModel.Store.Comments" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FolderDocs" EntityType="DocFoldersDbModel.Store.FolderDoc" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="DocAttachments" EntityType="DocFoldersDbModel.Store.DocAttachment" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="FolderSubFolders" EntityType="DocFoldersDbModel.Store.FolderSubFolder" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_FolderDocs_Folder" Association="DocFoldersDbModel.Store.FK_FolderDoc_Folder">
+    <EntitySet Name="FolderDocs" EntityType="DocFoldersDbModel.Store.FolderDocs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DocAttachments" EntityType="DocFoldersDbModel.Store.DocAttachments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FolderSubFolders" EntityType="DocFoldersDbModel.Store.FolderSubFolders" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_FolderDocs_Folder" Association="DocFoldersDbModel.Store.FK_FolderDocs_Folder">
       <End Role="Folder" EntitySet="Folders" />
-      <End Role="FolderDoc" EntitySet="FolderDocs" />
+      <End Role="FolderDocs" EntitySet="FolderDocs" />
     </AssociationSet>
-    <AssociationSet Name="FK_FolderDocs_Doc" Association="DocFoldersDbModel.Store.FK_FolderDoc_Doc">
+    <AssociationSet Name="FK_FolderDocs_Doc" Association="DocFoldersDbModel.Store.FK_FolderDocs_Doc">
       <End Role="Doc" EntitySet="Docs" />
-      <End Role="FolderDoc" EntitySet="FolderDocs" />
+      <End Role="FolderDocs" EntitySet="FolderDocs" />
     </AssociationSet>
-    <AssociationSet Name="DocComments" Association="DocFoldersDbModel.Store.DocComment">
+    <AssociationSet Name="DocComments" Association="DocFoldersDbModel.Store.DocComments">
       <End Role="Doc" EntitySet="Docs" />
       <End Role="Comment" EntitySet="Comments" />
     </AssociationSet>
-    <AssociationSet Name="FolderComments" Association="DocFoldersDbModel.Store.FolderComment">
+    <AssociationSet Name="FolderComments" Association="DocFoldersDbModel.Store.FolderComments">
       <End Role="Folder" EntitySet="Folders" />
       <End Role="Comment" EntitySet="Comments" />
     </AssociationSet>
-    <AssociationSet Name="FK_DocAttachments_MainDoc" Association="DocFoldersDbModel.Store.FK_DocAttachment_MainDoc">
+    <AssociationSet Name="FK_DocAttachments_MainDoc" Association="DocFoldersDbModel.Store.FK_DocAttachments_MainDoc">
       <End Role="MainDoc" EntitySet="Docs" />
-      <End Role="DocAttachment" EntitySet="DocAttachments" />
+      <End Role="DocAttachments" EntitySet="DocAttachments" />
     </AssociationSet>
-    <AssociationSet Name="FK_DocAttachments_AttachedDoc" Association="DocFoldersDbModel.Store.FK_DocAttachment_AttachedDoc">
+    <AssociationSet Name="FK_DocAttachments_AttachedDoc" Association="DocFoldersDbModel.Store.FK_DocAttachments_AttachedDoc">
       <End Role="AttachedDoc" EntitySet="Docs" />
-      <End Role="DocAttachment" EntitySet="DocAttachments" />
+      <End Role="DocAttachments" EntitySet="DocAttachments" />
     </AssociationSet>
-    <AssociationSet Name="FK_FolderSubFolders_ParentFolder" Association="DocFoldersDbModel.Store.FK_FolderSubFolder_ParentFolder">
+    <AssociationSet Name="FK_FolderSubFolders_ParentFolder" Association="DocFoldersDbModel.Store.FK_FolderSubFolders_ParentFolder">
       <End Role="ParentFolder" EntitySet="Folders" />
-      <End Role="FolderSubFolder" EntitySet="FolderSubFolders" />
+      <End Role="FolderSubFolders" EntitySet="FolderSubFolders" />
     </AssociationSet>
-    <AssociationSet Name="FK_FolderSubFolders_SubFolder" Association="DocFoldersDbModel.Store.FK_FolderSubFolder_SubFolder">
+    <AssociationSet Name="FK_FolderSubFolders_SubFolder" Association="DocFoldersDbModel.Store.FK_FolderSubFolders_SubFolder">
       <End Role="SubFolder" EntitySet="Folders" />
-      <End Role="FolderSubFolder" EntitySet="FolderSubFolders" />
+      <End Role="FolderSubFolders" EntitySet="FolderSubFolders" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Folders">
@@ -81,7 +81,7 @@
     <Property Name="DocId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="FolderId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="FolderDoc">
+  <EntityType Name="FolderDocs">
     <Key>
       <PropertyRef Name="Folders_Id" />
       <PropertyRef Name="Docs_Id" />
@@ -89,7 +89,7 @@
     <Property Name="Folders_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Docs_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="DocAttachment">
+  <EntityType Name="DocAttachments">
     <Key>
       <PropertyRef Name="AttachedDocs_Id" />
       <PropertyRef Name="MainDocs_Id" />
@@ -97,7 +97,7 @@
     <Property Name="AttachedDocs_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="MainDocs_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <EntityType Name="FolderSubFolder">
+  <EntityType Name="FolderSubFolders">
     <Key>
       <PropertyRef Name="SubFolders_Id" />
       <PropertyRef Name="ParentFolders_Id" />
@@ -105,7 +105,7 @@
     <Property Name="SubFolders_Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ParentFolders_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
-  <Association Name="DocComment">
+  <Association Name="DocComments">
     <End Role="Doc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
     <End Role="Comment" Type="DocFoldersDbModel.Store.Comments" Multiplicity="*" />
     <ReferentialConstraint>
@@ -117,7 +117,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FolderComment">
+  <Association Name="FolderComments">
     <End Role="Folder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
     <End Role="Comment" Type="DocFoldersDbModel.Store.Comments" Multiplicity="*" />
     <ReferentialConstraint>
@@ -129,74 +129,74 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FolderDoc_Folder">
+  <Association Name="FK_FolderDocs_Folder">
     <End Role="Folder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
-    <End Role="FolderDoc" Type="DocFoldersDbModel.Store.FolderDoc" Multiplicity="*" />
+    <End Role="FolderDocs" Type="DocFoldersDbModel.Store.FolderDocs" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Folder">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="FolderDoc">
+      <Dependent Role="FolderDocs">
         <PropertyRef Name="Folders_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FolderDoc_Doc">
-    <End Role="FolderDoc" Type="DocFoldersDbModel.Store.FolderDoc" Multiplicity="*" />
+  <Association Name="FK_FolderDocs_Doc">
+    <End Role="FolderDocs" Type="DocFoldersDbModel.Store.FolderDocs" Multiplicity="*" />
     <End Role="Doc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Doc">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="FolderDoc">
+      <Dependent Role="FolderDocs">
         <PropertyRef Name="Docs_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_DocAttachment_MainDoc">
+  <Association Name="FK_DocAttachments_MainDoc">
     <End Role="MainDoc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
-    <End Role="DocAttachment" Type="DocFoldersDbModel.Store.DocAttachment" Multiplicity="*" />
+    <End Role="DocAttachments" Type="DocFoldersDbModel.Store.DocAttachments" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="MainDoc">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="DocAttachment">
+      <Dependent Role="DocAttachments">
         <PropertyRef Name="AttachedDocs_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_DocAttachment_AttachedDoc">
-    <End Role="DocAttachment" Type="DocFoldersDbModel.Store.DocAttachment" Multiplicity="*" />
+  <Association Name="FK_DocAttachments_AttachedDoc">
+    <End Role="DocAttachments" Type="DocFoldersDbModel.Store.DocAttachments" Multiplicity="*" />
     <End Role="AttachedDoc" Type="DocFoldersDbModel.Store.Docs" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="AttachedDoc">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="DocAttachment">
+      <Dependent Role="DocAttachments">
         <PropertyRef Name="MainDocs_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FolderSubFolder_ParentFolder">
+  <Association Name="FK_FolderSubFolders_ParentFolder">
     <End Role="ParentFolder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
-    <End Role="FolderSubFolder" Type="DocFoldersDbModel.Store.FolderSubFolder" Multiplicity="*" />
+    <End Role="FolderSubFolders" Type="DocFoldersDbModel.Store.FolderSubFolders" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ParentFolder">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="FolderSubFolder">
+      <Dependent Role="FolderSubFolders">
         <PropertyRef Name="SubFolders_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_FolderSubFolder_SubFolder">
-    <End Role="FolderSubFolder" Type="DocFoldersDbModel.Store.FolderSubFolder" Multiplicity="*" />
+  <Association Name="FK_FolderSubFolders_SubFolder">
+    <End Role="FolderSubFolders" Type="DocFoldersDbModel.Store.FolderSubFolders" Multiplicity="*" />
     <End Role="SubFolder" Type="DocFoldersDbModel.Store.Folders" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="SubFolder">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="FolderSubFolder">
+      <Dependent Role="FolderSubFolders">
         <PropertyRef Name="ParentFolders_Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -209,23 +209,23 @@
           <EntitySet Name="Folders" EntityType="DocFoldersDbModel.Folder" />
           <EntitySet Name="Docs" EntityType="DocFoldersDbModel.Doc" />
           <EntitySet Name="Comments" EntityType="DocFoldersDbModel.Comment" />
-          <AssociationSet Name="FolderDocs" Association="DocFoldersDbModel.FolderDoc">
+          <AssociationSet Name="FolderDocs" Association="DocFoldersDbModel.FolderDocs">
             <End Role="Folder" EntitySet="Folders" />
             <End Role="Doc" EntitySet="Docs" />
           </AssociationSet>
-          <AssociationSet Name="DocComments" Association="DocFoldersDbModel.DocComment">
+          <AssociationSet Name="DocComments" Association="DocFoldersDbModel.DocComments">
             <End Role="Doc" EntitySet="Docs" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FolderComments" Association="DocFoldersDbModel.FolderComment">
+          <AssociationSet Name="FolderComments" Association="DocFoldersDbModel.FolderComments">
             <End Role="Folder" EntitySet="Folders" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="DocAttachments" Association="DocFoldersDbModel.DocAttachment">
+          <AssociationSet Name="DocAttachments" Association="DocFoldersDbModel.DocAttachments">
             <End Role="MainDoc" EntitySet="Docs" />
             <End Role="AttachedDoc" EntitySet="Docs" />
           </AssociationSet>
-          <AssociationSet Name="FolderSubFolders" Association="DocFoldersDbModel.FolderSubFolder">
+          <AssociationSet Name="FolderSubFolders" Association="DocFoldersDbModel.FolderSubFolders">
             <End Role="ParentFolder" EntitySet="Folders" />
             <End Role="SubFolder" EntitySet="Folders" />
           </AssociationSet>
@@ -251,20 +251,20 @@
               <LongDescription>Исходный путь к папке</LongDescription>
             </Documentation>
           </Property>
-          <NavigationProperty Name="Docs" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Folder" ToRole="Doc" >
+          <NavigationProperty Name="Docs" Relationship="DocFoldersDbModel.FolderDocs" FromRole="Folder" ToRole="Doc" >
             <Documentation>
               <Summary>Документ</Summary>
               <LongDescription>Вложенный документ</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="Comments" Relationship="DocFoldersDbModel.FolderComment" FromRole="Folder" ToRole="Comment" >
+          <NavigationProperty Name="Comments" Relationship="DocFoldersDbModel.FolderComments" FromRole="Folder" ToRole="Comment" >
             <Documentation>
               <Summary>Комментарий</Summary>
               <LongDescription>Комментарий к папке</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="ParentFolders" Relationship="DocFoldersDbModel.FolderSubFolder" FromRole="ParentFolder" ToRole="SubFolder" />
-          <NavigationProperty Name="SubFolders" Relationship="DocFoldersDbModel.FolderSubFolder" FromRole="SubFolder" ToRole="ParentFolder" />
+          <NavigationProperty Name="ParentFolders" Relationship="DocFoldersDbModel.FolderSubFolders" FromRole="ParentFolder" ToRole="SubFolder" />
+          <NavigationProperty Name="SubFolders" Relationship="DocFoldersDbModel.FolderSubFolders" FromRole="SubFolder" ToRole="ParentFolder" />
         </EntityType>
         <EntityType Name="Doc">
           <Documentation>
@@ -323,25 +323,25 @@
               <LongDescription>Кем изменен документ</LongDescription>
             </Documentation>
           </Property>
-          <NavigationProperty Name="Folders" Relationship="DocFoldersDbModel.FolderDoc" FromRole="Doc" ToRole="Folder" >
+          <NavigationProperty Name="Folders" Relationship="DocFoldersDbModel.FolderDocs" FromRole="Doc" ToRole="Folder" >
             <Documentation>
               <Summary>Папка</Summary>
               <LongDescription>Куда вложен документ</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="Comments" Relationship="DocFoldersDbModel.DocComment" FromRole="Doc" ToRole="Comment" >
+          <NavigationProperty Name="Comments" Relationship="DocFoldersDbModel.DocComments" FromRole="Doc" ToRole="Comment" >
             <Documentation>
               <Summary>Комментарий</Summary>
               <LongDescription>Комментарий к документу</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="MainDocs" Relationship="DocFoldersDbModel.DocAttachment" FromRole="MainDoc" ToRole="AttachedDoc" >
+          <NavigationProperty Name="MainDocs" Relationship="DocFoldersDbModel.DocAttachments" FromRole="MainDoc" ToRole="AttachedDoc" >
             <Documentation>
               <Summary>Документ</Summary>
               <LongDescription>Основной документ</LongDescription>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="AttachedDocs" Relationship="DocFoldersDbModel.DocAttachment" FromRole="AttachedDoc" ToRole="MainDoc" >
+          <NavigationProperty Name="AttachedDocs" Relationship="DocFoldersDbModel.DocAttachments" FromRole="AttachedDoc" ToRole="MainDoc" >
             <Documentation>
               <Summary>Приложение</Summary>
               <LongDescription>Приложение к документу</LongDescription>
@@ -393,14 +393,14 @@
               <LongDescription>Содержание комментария</LongDescription>
             </Documentation>
           </Property>
-          <NavigationProperty Name="Doc" Relationship="DocFoldersDbModel.DocComment" FromRole="Comment" ToRole="Doc" >
+          <NavigationProperty Name="Doc" Relationship="DocFoldersDbModel.DocComments" FromRole="Comment" ToRole="Doc" >
             <Documentation>
               <Summary>Документ</Summary>
               <LongDescription>Комментируемый документ</LongDescription>
             </Documentation>
           </NavigationProperty>
           <Property Name="DocId" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Folder" Relationship="DocFoldersDbModel.FolderComment" FromRole="Comment" ToRole="Folder" >
+          <NavigationProperty Name="Folder" Relationship="DocFoldersDbModel.FolderComments" FromRole="Comment" ToRole="Folder" >
             <Documentation>
               <Summary>Папка</Summary>
               <LongDescription>Комментируемая папка</LongDescription>
@@ -408,16 +408,16 @@
           </NavigationProperty>
           <Property Name="FolderId" Type="Guid" Nullable="false" />
         </EntityType>
-        <Association Name="FolderDoc">
+        <Association Name="FolderDocs">
           <Documentation>
-            <Summary>Папка документов</Summary>
-            <LongDescription>Папка с вложенными (папками и) документами</LongDescription>
+            <Summary>Папка с документами</Summary>
+            <LongDescription>Папка с вложенными документами</LongDescription>
           </Documentation>
           <End Type="DocFoldersDbModel.Folder" Role="Folder" Multiplicity="*" >
           </End>
           <End Type="DocFoldersDbModel.Doc" Role="Doc" Multiplicity="*" />
         </Association>
-        <Association Name="DocComment">
+        <Association Name="DocComments">
           <Documentation>
             <Summary>Комментарии</Summary>
             <LongDescription>Комментарии к документу</LongDescription>
@@ -433,7 +433,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FolderComment">
+        <Association Name="FolderComments">
           <Documentation>
             <Summary>Комментарии</Summary>
             <LongDescription>Комментарии к папке</LongDescription>
@@ -449,7 +449,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="DocAttachment">
+        <Association Name="DocAttachments">
           <Documentation>
             <Summary>Приложения</Summary>
             <LongDescription>Основной документ с приложениями</LongDescription>
@@ -457,7 +457,11 @@
           <End Type="DocFoldersDbModel.Doc" Role="MainDoc" Multiplicity="*" />
           <End Type="DocFoldersDbModel.Doc" Role="AttachedDoc" Multiplicity="*" />
         </Association>
-        <Association Name="FolderSubFolder">
+        <Association Name="FolderSubFolders">
+          <Documentation>
+            <Summary>Папка с папками</Summary>
+            <LongDescription>Папка с вложенными подпапками</LongDescription>
+          </Documentation>
           <End Type="DocFoldersDbModel.Folder" Role="ParentFolder" Multiplicity="*" />
           <End Type="DocFoldersDbModel.Folder" Role="SubFolder" Multiplicity="*" />
         </Association>
@@ -506,7 +510,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="FolderDocs" TypeName="DocFoldersDbModel.FolderDoc" StoreEntitySet="FolderDocs">
+    <AssociationSetMapping Name="FolderDocs" TypeName="DocFoldersDbModel.FolderDocs" StoreEntitySet="FolderDocs">
       <EndProperty Name="Folder">
         <ScalarProperty Name="Id" ColumnName="Folders_Id" />
       </EndProperty>
@@ -514,7 +518,7 @@
         <ScalarProperty Name="Id" ColumnName="Docs_Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="DocAttachments" TypeName="DocFoldersDbModel.DocAttachment" StoreEntitySet="DocAttachments">
+    <AssociationSetMapping Name="DocAttachments" TypeName="DocFoldersDbModel.DocAttachments" StoreEntitySet="DocAttachments">
       <EndProperty Name="MainDoc">
         <ScalarProperty Name="Id" ColumnName="AttachedDocs_Id" />
       </EndProperty>
@@ -522,7 +526,7 @@
         <ScalarProperty Name="Id" ColumnName="MainDocs_Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="FolderSubFolders" TypeName="DocFoldersDbModel.FolderSubFolder" StoreEntitySet="FolderSubFolders">
+    <AssociationSetMapping Name="FolderSubFolders" TypeName="DocFoldersDbModel.FolderSubFolders" StoreEntitySet="FolderSubFolders">
       <EndProperty Name="ParentFolder">
         <ScalarProperty Name="Id" ColumnName="SubFolders_Id" />
       </EndProperty>

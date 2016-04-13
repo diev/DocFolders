@@ -8,15 +8,15 @@
         <EntityTypeShape EntityType="DocFoldersDbModel.Folder" Width="1.5" PointX="0.625" PointY="1.5" />
         <EntityTypeShape EntityType="DocFoldersDbModel.Doc" Width="1.5" PointX="2.75" PointY="2.125" FillColor="Green" />
         <EntityTypeShape EntityType="DocFoldersDbModel.Comment" Width="1.5" PointX="5.125" PointY="5.25" FillColor="Maroon" />
-        <AssociationConnector Association="DocFoldersDbModel.FolderDoc" />
-        <AssociationConnector Association="DocFoldersDbModel.DocComment" />
-        <AssociationConnector Association="DocFoldersDbModel.FolderComment" />
-        <AssociationConnector Association="DocFoldersDbModel.DocAttachment" ManuallyRouted="false" >
+        <AssociationConnector Association="DocFoldersDbModel.FolderDocs" />
+        <AssociationConnector Association="DocFoldersDbModel.DocComments" />
+        <AssociationConnector Association="DocFoldersDbModel.FolderComments" />
+        <AssociationConnector Association="DocFoldersDbModel.DocAttachments" ManuallyRouted="false" >
         </AssociationConnector>
-        <AssociationConnector Association="DocFoldersDbModel.FolderSubFolder" ManuallyRouted="true" >
+        <AssociationConnector Association="DocFoldersDbModel.FolderSubFolders" ManuallyRouted="true" >
           <ConnectorPoint PointX="1.1569230769230767" PointY="3.864889322916667" />
-          <ConnectorPoint PointX="1.1569230769230767" PointY="4.1930143229166683" />
-          <ConnectorPoint PointX="1.6034615384615383" PointY="4.1930143229166683" />
+          <ConnectorPoint PointX="1.1569230769230767" PointY="4.68432041049536" />
+          <ConnectorPoint PointX="1.6034615384615383" PointY="4.68432041049536" />
           <ConnectorPoint PointX="1.6034615384615383" PointY="3.864889322916667" />
         </AssociationConnector>
       </Diagram>
