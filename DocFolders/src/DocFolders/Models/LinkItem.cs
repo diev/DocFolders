@@ -10,6 +10,7 @@ namespace DocFolders.Models
     {
         [Key]
         public string Id { get; set; }
+        [Required]
         [MaxLength(256)]
         public string Caption { get; set; }
         [MaxLength(256)]
