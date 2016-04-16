@@ -9,6 +9,10 @@ namespace DocFolders.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        // Add my DocFolders model
+        public DbSet<LinkItem> LinkItems { get; set; }
+        public DbSet<ItemLink> ItemLinks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
