@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Metadata;
 
 namespace DocFolders.Models
 {
@@ -29,13 +30,13 @@ namespace DocFolders.Models
                 .HasOne(pt => pt.Outer)
                 .WithMany(p => p.Inners)
                 .HasForeignKey(pt => pt.OuterId)
-                .OnDelete(Microsoft.Data.Entity.Metadata.DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Link>()
                 .HasOne(pt => pt.Inner)
                 .WithMany(t => t.Outers)
                 .HasForeignKey(pt => pt.InnerId)
-                .OnDelete(Microsoft.Data.Entity.Metadata.DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);
 
             //TODO Database manually in EF7
             // cmd

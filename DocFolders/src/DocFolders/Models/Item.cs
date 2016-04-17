@@ -10,7 +10,6 @@ namespace DocFolders.Models
     [Table("Items")]
     public class Item
     {
-        [Key]
         [MaxLength(256)]
         public string Id { get; set; }
 
@@ -23,7 +22,10 @@ namespace DocFolders.Models
 
         // http://stackoverflow.com/questions/29442493/how-to-create-a-many-to-many-relationship-with-latest-nightly-builds-of-ef7
 
+        [InverseProperty("Outer")]
         public List<Link> Outers { get; set; } = new List<Link>();
+
+        [InverseProperty("Inner")]
         public List<Link> Inners { get; set; } = new List<Link>();
     }
 }

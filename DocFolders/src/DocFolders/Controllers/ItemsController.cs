@@ -4,6 +4,8 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using DocFolders.Models;
+using System;
+using DocFolders.Services;
 
 namespace DocFolders.Controllers
 {
@@ -42,6 +44,10 @@ namespace DocFolders.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
+            //TODO Make Import button here
+            //string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string dir = @"C:\Users\admin\Documents";
+            var import = new ImportFolder(_context, dir);
             return View();
         }
 
