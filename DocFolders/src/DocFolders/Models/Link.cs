@@ -11,16 +11,14 @@ namespace DocFolders.Models
     public class Link
     {
         [Key]
-        [Required]
         [Column(Order = 1)]
-        [ForeignKey("OuterId")]
+        [MaxLength(256)]
         public string OuterId { get; set; }
         public Item Outer { get; set; }
 
         [Key]
-        [Required]
         [Column(Order = 2)]
-        [ForeignKey("InnerId")]
+        [MaxLength(256)]
         public string InnerId { get; set; }
         public Item Inner { get; set; }
     }

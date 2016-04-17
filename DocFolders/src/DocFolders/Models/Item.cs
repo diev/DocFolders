@@ -11,6 +11,7 @@ namespace DocFolders.Models
     public class Item
     {
         [Key]
+        [MaxLength(256)]
         public string Id { get; set; }
 
         [Required]

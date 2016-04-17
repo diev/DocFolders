@@ -28,14 +28,24 @@ namespace DocFolders.Models
             builder.Entity<Link>()
                 .HasOne(pt => pt.Outer)
                 .WithMany(p => p.Inners)
-                .HasForeignKey(pt => pt.OuterId);
+                .HasForeignKey(pt => pt.OuterId)
+                .OnDelete(Microsoft.Data.Entity.Metadata.DeleteBehavior.Restrict);
 
             builder.Entity<Link>()
                 .HasOne(pt => pt.Inner)
                 .WithMany(t => t.Outers)
-                .HasForeignKey(pt => pt.InnerId);
+                .HasForeignKey(pt => pt.InnerId)
+                .OnDelete(Microsoft.Data.Entity.Metadata.DeleteBehavior.Restrict);
 
-            //TODO First use: dnx ef database update
+            //TODO Database manually in EF7
+            // cmd
+            // cd %USERPROFILE%
+            // dnvm list
+            // dnvm install 1.0.0-rc1-update1
+            // cd \Repos\...\src\project
+            // dnx ef migrations add FirstMigration
+            // (dnx ef migrations remove)
+            // dnx ef database update
         }
     }
 }
